@@ -16,6 +16,11 @@ function Navbar({ title }: Props) {
         <Link href="/blog" legacyBehavior passHref>
           <Anchor>Blog</Anchor>
         </Link>
+
+        <Anchor href="https://github.com/matthewwolfe">Github</Anchor>
+        <Anchor href="https://www.linkedin.com/in/matthewwolfe2/">
+          LinkedIn
+        </Anchor>
       </Flex>
     </Flex>
   );
