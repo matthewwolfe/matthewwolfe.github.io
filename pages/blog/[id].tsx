@@ -1,5 +1,7 @@
 import { Title, Text, Flex } from '@mantine/core';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { blog } from '@pkg/scripts/blog';
 
 import type { GetStaticPropsContext } from 'next';
@@ -16,13 +18,36 @@ function BlogPost({ post }: Props) {
         <Title order={1}>{post.metadata.title}</Title>
 
         <Text c="dimmed">
-          {new Date(post.metadata.date).toLocaleDateString()}
+          {new Date(post.metadata.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'UTC',
+          })}
         </Text>
       </Flex>
 
-      <Flex>
+      <Flex direction="column" gap="md">
         <ReactMarkdown
           components={{
+            code({ node, inline, className, children, ...props }) {
+              const match = /language-(\w+)/.exec(className || '');
+
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  {...props}
+                  style={tomorrow}
+                  language={match[1]}
+                  PreTag="div"
+                >
+                  {children.toString().replace(/\n$/, '')}
+                </SyntaxHighlighter>
+              ) : (
+                <code {...props} className={className}>
+                  {children}
+                </code>
+              );
+            },
             h1: ({ children }) => <Title order={1}>{children}</Title>,
             h2: ({ children }) => <Title order={2}>{children}</Title>,
             h3: ({ children }) => <Title order={3}>{children}</Title>,

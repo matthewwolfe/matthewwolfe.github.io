@@ -31,6 +31,7 @@ function Blog({ posts }: Props) {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
+                timeZone: 'UTC',
               })}
             </Text>
           </Flex>
