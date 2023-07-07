@@ -31,7 +31,7 @@ function App(props: AppProps<StaticProps>) {
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>{title}</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
