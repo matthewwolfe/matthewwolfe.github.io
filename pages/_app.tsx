@@ -51,7 +51,7 @@ function App(props: AppProps<StaticProps>) {
           }}
         >
           <Container p="md" py="xl" size="md">
-            <Navbar title={title} />
+            <Navbar />
 
             <Component {...pageProps} />
           </Container>
