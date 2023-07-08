@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.1.2",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.16",
