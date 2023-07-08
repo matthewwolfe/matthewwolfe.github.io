@@ -1,10 +1,26 @@
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
+import yaml from 'yaml';
+
+import type { Post, PostMetadata, PostYaml } from '@pkg/types/posts';
 
 const postsDirectory = path.join(process.cwd(), 'blog-posts');
 
-export function getBlogPosts() {
+function getMetadata(content: string) {
+  const yamlContent = content.slice(3, content.lastIndexOf('---'));
+  const metadata = yaml.parse(yamlContent) as PostYaml;
+
+  return {
+    ...metadata,
+    tags: metadata.tags.split(','),
+  };
+}
+
+function getMarkdown(content: string) {
+  return content.slice(content.lastIndexOf('---') + 3);
+}
+
+export function getBlogPosts(): PostMetadata[] {
   const fileNames = fs.readdirSync(postsDirectory);
 
   return fileNames.map((fileName) => {
@@ -13,16 +29,12 @@ export function getBlogPosts() {
 
     // Read markdown file as string
     const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-    const matterResult = matter(fileContents);
+    const content = fs.readFileSync(fullPath, 'utf8');
+    const metadata = getMetadata(content);
 
     return {
       id,
-      metadata: {
-        ...matterResult.data,
-        tags: matterResult.data.tags.split(','),
-      },
+      metadata,
     };
   });
 }
@@ -33,11 +45,11 @@ export function getBlogPostIds(): string[] {
   return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
 }
 
-export function getBlogPostById(id: string) {
+export function getBlogPostById(id: string): Post | undefined {
   const fileNames = fs.readdirSync(postsDirectory);
 
   const fileName = fileNames.find(
-    (fileName) => fileName.replace(/\.md$/, '') === id
+    (fileName) => fileName.replace(/\.md$/, '') === id,
   );
 
   if (!fileName) {
@@ -46,17 +58,16 @@ export function getBlogPostById(id: string) {
 
   // Read markdown file as string
   const fullPath = path.join(postsDirectory, fileName);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const content = fs.readFileSync(fullPath, 'utf8');
+  const metadata = getMetadata(content);
+  const markdown = getMarkdown(content);
 
-  const matterResult = matter(fileContents);
+  console.log(markdown);
 
   return {
     id,
-    metadata: {
-      ...matterResult.data,
-      tags: matterResult.data.tags.split(','),
-    },
-    content: matterResult.content,
+    metadata,
+    content: markdown,
   };
 }
 
