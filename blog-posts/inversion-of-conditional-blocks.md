@@ -2,6 +2,7 @@
 title: 'Inversion of Conditional Blocks'
 date: '2023-06-08'
 description: 'Invert conditional logic to reduce lines of code, reduce nesting, and improve readability'
+publish: true
 tags: beginner,typescript
 ---
 

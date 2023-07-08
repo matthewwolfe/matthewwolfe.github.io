@@ -2,6 +2,7 @@
 title: 'Using "useMemo" instead of "useEffect" for computations in React'
 date: '2023-06-07'
 description: 'Avoiding the common pitfall of overusing effects in React, and embracing the "useMemo" hook instead.'
+publish: true
 tags: beginner,react,typescript
 ---
 
@@ -75,7 +76,7 @@ function ActiveUsers({ users }: Props) {
   // use "useMemo" to save the calculation
   const activeUsers = useMemo(
     () => users.filter((user) => user.active),
-    [users]
+    [users],
   );
 
   // render a list of active users
