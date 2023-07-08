@@ -49,9 +49,25 @@ export function getBlogPosts(): PostMetadata[] {
 }
 
 export function getBlogPostIds(): string[] {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const filenames = fs.readdirSync(postsDirectory);
 
-  return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+  return filenames
+    .filter((filename) => {
+      if (NODE_ENV !== 'production') {
+        return true;
+      }
+
+      const fullPath = path.join(postsDirectory, filename);
+      const content = fs.readFileSync(fullPath, 'utf8');
+      const metadata = getMetadata(content);
+
+      if (!metadata.publish) {
+        return false;
+      }
+
+      return true;
+    })
+    .map((fileName) => fileName.replace(/\.md$/, ''));
 }
 
 export function getBlogPostById(id: string): Post | undefined {
