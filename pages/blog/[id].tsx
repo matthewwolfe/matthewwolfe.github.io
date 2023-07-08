@@ -1,4 +1,4 @@
-import { Title, Text, Flex } from '@mantine/core';
+import { Badge, Flex, Text, Title } from '@mantine/core';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -25,6 +25,14 @@ function BlogPost({ post }: Props) {
             timeZone: 'UTC',
           })}
         </Text>
+
+        <Flex gap="sm">
+          {post.metadata.tags.map((tag, index) => (
+            <Badge color="dark" key={index}>
+              {tag}
+            </Badge>
+          ))}
+        </Flex>
       </Flex>
 
       <Flex direction="column" gap="md">

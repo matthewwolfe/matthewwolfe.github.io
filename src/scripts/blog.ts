@@ -19,7 +19,10 @@ export function getBlogPosts() {
 
     return {
       id,
-      metadata: matterResult.data,
+      metadata: {
+        ...matterResult.data,
+        tags: matterResult.data.tags.split(','),
+      },
     };
   });
 }
@@ -49,7 +52,10 @@ export function getBlogPostById(id: string) {
 
   return {
     id,
-    metadata: matterResult.data,
+    metadata: {
+      ...matterResult.data,
+      tags: matterResult.data.tags.split(','),
+    },
     content: matterResult.content,
   };
 }

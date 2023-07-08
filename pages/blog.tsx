@@ -1,4 +1,4 @@
-import { Flex, Text, Title } from '@mantine/core';
+import { Badge, Flex, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { blog } from '@pkg/scripts/blog';
 
@@ -37,6 +37,14 @@ function Blog({ posts }: Props) {
           </Flex>
 
           <Text>{post.metadata.description}</Text>
+
+          <Flex gap="sm">
+            {post.metadata.tags.map((tag, index) => (
+              <Badge color="dark" key={index}>
+                {tag}
+              </Badge>
+            ))}
+          </Flex>
         </Flex>
       ))}
     </Flex>

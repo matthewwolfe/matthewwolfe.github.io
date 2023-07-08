@@ -2,6 +2,7 @@
 title: 'Using "useMemo" instead of "useEffect" for computations in React'
 date: '2023-06-07'
 description: 'Avoiding the common pitfall of overusing effects in React, and embracing the "useMemo" hook instead.'
+tags: beginner,react,typescript
 ---
 
 One of the most common patterns in a React codebase is taking some information, transforming it,

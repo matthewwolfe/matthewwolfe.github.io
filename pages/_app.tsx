@@ -48,6 +48,15 @@ function App(props: AppProps<StaticProps>) {
             headings: {
               fontFamily: ibmPlexSans.style.fontFamily,
             },
+            components: {
+              Badge: {
+                styles: {
+                  root: {
+                    fontFamily: ibmPlexSans.style.fontFamily,
+                  },
+                },
+              },
+            },
           }}
         >
           <Container p="md" py="xl" size="md">
