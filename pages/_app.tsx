@@ -1,7 +1,10 @@
+import * as amplitude from '@amplitude/analytics-browser';
 import { Container, MantineProvider } from '@mantine/core';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import { IBM_Plex_Serif, IBM_Plex_Sans } from 'next/font/google';
 import { Navbar } from '@pkg/components/Navbar';
+import { AMPLITUDE_API_KEY } from '@pkg/config/constants';
 
 import type { AppProps } from 'next/app';
 
@@ -27,6 +30,12 @@ function App(props: AppProps<StaticProps>) {
     Component,
     pageProps: { title, ...pageProps },
   } = props;
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      amplitude.init(AMPLITUDE_API_KEY);
+    }
+  }, []);
 
   return (
     <>

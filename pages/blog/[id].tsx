@@ -13,7 +13,7 @@ interface Props {
 
 function BlogPost({ post }: Props) {
   return (
-    <Flex direction="column" gap="md">
+    <Flex direction="column" gap="3rem">
       <Flex direction="column" gap="xs">
         <Title order={1}>{post.metadata.title}</Title>
 
