@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { PostMetadata } from '@pkg/types/posts';
 
 const postsDirectory = path.join(process.cwd(), 'blog-posts');
 
@@ -15,7 +16,7 @@ export function getBlogPosts() {
     const fullPath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-    const matterResult = matter(fileContents);
+    const matterResult = matter<string, PostMetadata>(fileContents);
 
     return {
       id,
@@ -37,7 +38,7 @@ export function getBlogPostById(id: string) {
   const fileNames = fs.readdirSync(postsDirectory);
 
   const fileName = fileNames.find(
-    (fileName) => fileName.replace(/\.md$/, '') === id
+    (fileName) => fileName.replace(/\.md$/, '') === id,
   );
 
   if (!fileName) {
