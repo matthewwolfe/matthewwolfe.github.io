@@ -26,7 +26,7 @@ function BlogPost({ post }: Props) {
           })}
         </Text>
 
-        <Flex gap="sm">
+        <Flex gap="sm" wrap="wrap">
           {post.metadata.tags.map((tag, index) => (
             <Badge
               gradient={{ from: 'cyan', to: 'blue' }}
