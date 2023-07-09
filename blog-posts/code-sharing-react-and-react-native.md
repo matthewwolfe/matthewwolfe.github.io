@@ -1,9 +1,9 @@
 ---
 title: 'Reflecting on Code Sharing Between React and React Native'
 date: '2023-06-09'
-description: 'Reflecting on sharing code between React Native and React web applications'
-publish: false
-tags: intermediate,react,react-query,typescript
+description: 'Looking back at what was easy to share between Native and Web applications, and some simple strategies to make things easier'
+publish: true
+tags: intermediate,react,react native,react query,typescript
 ---
 
 One of my favorite parts of the Javascript ecosystem is the opportunity for sharing code
@@ -125,6 +125,105 @@ Native application.
 
 ## Use Context/Providers for Equivalent Functionality With Different Implementations
 
-- storage (AsyncStorage vs sessionStorage/localStorage/cookies)
+In React Native, interacting with native storage is asynchronous using the [Async Storage](https://github.com/react-native-async-storage/async-storage) library. This is in contrast to using
+Session/Local Storage or cookies in a web environment, which is always synchronous.
 
-## Container Components and UI Components
+In my project, I wanted to store a JWT token as a cookie for the web application so that
+it was easily accessible on the frontend and backend, for cases where I wanted to use
+the SSR features of Nextjs. Cookies aren't a thing in React Native, which prefers
+having all storage set with the Async Storage API.
+
+A solution to this problem is to create shared Context/Providers that have the exact same
+contract, but have different implementation details depending on the environment.
+
+For example, I wrote an Auth Context/Provider that looked like this:
+
+```tsx
+<AuthContext.Provider
+  value={{
+    clearToken: clearAuthToken,
+    setToken: setAuthToken,
+    token,
+  }}
+>
+  {children}
+</AuthContext.Provider>
+```
+
+The Native and Web environments were able to specify their own implementation of those
+functions. In the Native environment, `clearToken`, `setToken`, and `token` interact
+with the Async Storage API. In the Web environment, those values are created by
+interacting with a Web-specific Cookie library.
+
+With this Context that implemented a shared interface, it became really easy
+to write request hooks that need to send a token as part of the API request
+without needing to conditionally check if the request is being sent from a Native
+or Web environment. The request hooks don't care where the token comes from,
+they just need a token to be available to send when making API requests.
+
+```tsx
+function useFetchData() {
+  const { token } = useContext(AuthContext);
+
+  // make an authenticated request
+}
+```
+
+Another example of this is environment variables. Just about every flavor of React
+application (CRA, Nextjs, Vite, React Native, etc) handle environment variables
+differently. Nextjs requires that environment variables be prefixed with `NEXT_PUBLIC_`.
+Vite uses `import.meta.env`.
+
+Having a Context/Provider to specify environment variable values allowed papering over
+the subtle differences in how environment variables must be structured in different projects.
+
+#### Nextjs
+
+```tsx
+<EnvVarsContext.Provider
+  value={{
+    BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+  }}
+>
+  {children}
+</EnvVarsContext.Provider>
+```
+
+#### Vite
+
+```tsx
+<EnvVarsContext.Provider
+  value={{
+    BASE_URL: import.meta.env.BASE_URL,
+  }}
+>
+  {children}
+</EnvVarsContext.Provider>
+```
+
+#### React Native
+
+```tsx
+<EnvVarsContext.Provider
+  value={{
+    BASE_URL: process.env.BASE_URL,
+  }}
+>
+  {children}
+</EnvVarsContext.Provider>
+```
+
+#### In shared code
+
+```tsx
+function SharedComponent() {
+  const { BASE_URL } = useContext(EnvVarsContext);
+}
+```
+
+## Conclusion
+
+- Non UI Code is easy to share
+- UI Code is so different for Native and Web that it is worth it to write separately
+- Monorepo makes it easy to segment buckets of code
+- Use Context to define common interfaces that have different implementation details

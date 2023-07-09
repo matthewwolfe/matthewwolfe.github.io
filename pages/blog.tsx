@@ -1,5 +1,6 @@
 import { Badge, Flex, Text, Title } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import { blog } from '@pkg/scripts/blog';
 
 import type { PostMetadata } from '@pkg/types/posts';
@@ -12,7 +13,7 @@ function Blog({ posts }: Props) {
   const router = useRouter();
 
   return (
-    <Flex direction="column" gap="xl" pt="xl">
+    <Flex direction="column" gap="3rem" pt="xl">
       {posts.map((post) => (
         <Flex direction="column" gap="sm" key={post.id}>
           <Flex direction="column">
@@ -40,7 +41,11 @@ function Blog({ posts }: Props) {
 
           <Flex gap="sm">
             {post.metadata.tags.map((tag, index) => (
-              <Badge color="dark" key={index}>
+              <Badge
+                gradient={{ from: 'cyan', to: 'blue' }}
+                key={index}
+                variant="gradient"
+              >
                 {tag}
               </Badge>
             ))}

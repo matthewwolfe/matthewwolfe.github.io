@@ -1,3 +1,4 @@
+import { orderByFn } from '@bedrock-ui/utils';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'yaml';
@@ -24,7 +25,7 @@ function getMarkdown(content: string): string {
 export function getBlogPosts(): PostMetadata[] {
   const fileNames = fs.readdirSync(postsDirectory);
 
-  return fileNames
+  const posts = fileNames
     .map((fileName) => {
       // Remove ".md" from file name to get id
       const id = fileName.replace(/\.md$/, '');
@@ -46,6 +47,8 @@ export function getBlogPosts(): PostMetadata[] {
 
       return true;
     });
+
+  return orderByFn(posts, [(post) => post.metadata.date], ['desc']);
 }
 
 export function getBlogPostIds(): string[] {

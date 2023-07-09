@@ -58,6 +58,11 @@ function App(props: AppProps<StaticProps>) {
               fontFamily: ibmPlexSans.style.fontFamily,
             },
             components: {
+              Anchor: {
+                defaultProps: {
+                  weight: '500',
+                },
+              },
               Badge: {
                 styles: {
                   root: {

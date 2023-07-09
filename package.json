@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.1.2",
+    "@bedrock-ui/utils": "^0.6.2",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.16",

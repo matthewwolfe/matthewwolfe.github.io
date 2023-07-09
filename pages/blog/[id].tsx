@@ -28,7 +28,11 @@ function BlogPost({ post }: Props) {
 
         <Flex gap="sm">
           {post.metadata.tags.map((tag, index) => (
-            <Badge color="dark" key={index}>
+            <Badge
+              gradient={{ from: 'cyan', to: 'blue' }}
+              key={index}
+              variant="gradient"
+            >
               {tag}
             </Badge>
           ))}
