@@ -33,7 +33,8 @@ function Blog({ posts }: Props) {
                 month: 'long',
                 day: 'numeric',
                 timeZone: 'UTC',
-              })}
+              })}{' '}
+              - {post.metadata.readingTime}
             </Text>
           </Flex>
 

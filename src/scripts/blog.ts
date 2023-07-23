@@ -1,6 +1,7 @@
 import { orderByFn } from '@bedrock-ui/utils';
 import fs from 'fs';
 import path from 'path';
+import readingTime from 'reading-time';
 import yaml from 'yaml';
 import { NODE_ENV } from '@pkg/config/constants';
 
@@ -14,6 +15,7 @@ function getMetadata(content: string): PostMetadata['metadata'] {
 
   return {
     ...metadata,
+    readingTime: readingTime(content).text,
     tags: metadata.tags.split(','),
   };
 }

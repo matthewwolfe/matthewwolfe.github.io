@@ -13,6 +13,7 @@ export interface PostMetadata {
     title: string;
     description: string;
     publish: boolean;
+    readingTime: string;
     tags: string[];
   };
 }

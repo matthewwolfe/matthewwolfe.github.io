@@ -24,7 +24,8 @@ function BlogPost({ post }: Props) {
             month: 'long',
             day: 'numeric',
             timeZone: 'UTC',
-          })}
+          })}{' '}
+          - {post.metadata.readingTime}
         </Text>
 
         <Flex gap="sm" wrap="wrap">
