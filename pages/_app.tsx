@@ -45,6 +45,11 @@ function App(props: AppProps<StaticProps>) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+
+        <meta
+          property="og:image"
+          content="https://images.pexels.com/photos/60626/pexels-photo-60626.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        />
       </Head>
 
       <main className={ibmPlexSerif.className}>
