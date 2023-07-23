@@ -1,4 +1,5 @@
-import { Badge, Flex, Text, Title } from '@mantine/core';
+import { Anchor, Badge, Flex, Text, Title } from '@mantine/core';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -42,6 +43,11 @@ function BlogPost({ post }: Props) {
       <Flex direction="column" gap="md">
         <ReactMarkdown
           components={{
+            a: ({ children, href = '/' }) => (
+              <Link href={href} legacyBehavior passHref>
+                <Anchor>{children}</Anchor>
+              </Link>
+            ),
             code({ node, inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');
 
