@@ -13,7 +13,7 @@ preemptively writing and structuring your code so that it is easy to unit test.
 ## Mocking Test Boundaries
 
 When using React, composition is key. This often means that if you want to test a component,
-you will by default by rendering all of the children of that component. This can be problematic
+you will by default be rendering all of the children of that component. This can be problematic
 in a large application where you can end up rendering dozens or even hundreds of components.
 
 Here is an example of a component that we want to write a unit test for. It is a Search component
@@ -255,7 +255,7 @@ Container and UI components. I will discuss this topic in a future blog post.
 ## Mock Implementations
 
 Sometimes it is not enough to mock a module. Instead, you'd like to mock a module and have
-multiple implementations of that module to test different scenarios. Lets say we have a hook
+multiple implementations of that module to test different scenarios. Let's say we have a hook
 that fetches users and returns an array of users and some loading and error state.
 
 ```tsx
